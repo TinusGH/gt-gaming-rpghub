@@ -1,5 +1,10 @@
 <app-navbar></app-navbar>
 
-<main class="p-6 min-h-[calc(100vh-64px)] bg-background text-textPrimary dark:bg-white dark:text-black transition-colors duration-300">
-  <app-home></app-home>
+<main
+  class="p-6 min-h-[calc(100vh-64px)]
+         bg-background dark:bg-background-dark
+         text-textPrimary dark:text-textPrimary-dark
+         transition-colors duration-300"
+>
+  <router-outlet></router-outlet>
 </main>

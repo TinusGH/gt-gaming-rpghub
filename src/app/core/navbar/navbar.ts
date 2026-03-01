@@ -1,21 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-navbar',
   imports: [],
   templateUrl: './navbar.html',
-  styleUrl: './navbar.css',
+  styleUrls: ['./navbar.css'],
 })
 export class Navbar {
-  darkMode = true; // start in dark mode
+  private router = inject(Router);
+
+  darkMode = false; // <-- set LIGHT mode as default
 
   toggleTheme() {
     this.darkMode = !this.darkMode;
 
     if (this.darkMode) {
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add('dark'); // apply dark theme
     } else {
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove('dark'); // revert to light theme
     }
   }
+
+  goHome() {
+    this.router.navigate(['/']);
+  }
+
 }
