@@ -1,0 +1,94 @@
+<!-- Hero Banner -->
+<section class="relative px-6 py-16 text-center overflow-hidden
+                bg-background-nav dark:bg-background-nav-dark
+                border-b-2 border-primary">
+  <div class="absolute inset-0 bg-gradient-to-br from-primary to-transparent
+              opacity-5 dark:opacity-10 pointer-events-none"></div>
+
+  <div class="relative z-10">
+    <!-- Avatar Placeholder -->
+    <div class="w-28 h-28 rounded-full mx-auto mb-5 overflow-hidden
+                bg-surface border-4 border-primary flex items-center justify-center">
+      <span class="text-text-muted text-xs font-body">Avatar</span>
+    </div>
+
+    <h1 class="text-4xl font-header font-black tracking-tight mb-2
+               text-textPrimary dark:text-textPrimary-dark">
+      GT_Gaming
+    </h1>
+    <p class="text-textSecondary dark:text-textSecondary-dark max-w-lg mx-auto">
+      RPG streamer. Multi-platform. Full playthroughs and chill sessions —
+      Final Fantasy, Chrono Trigger, and beyond.
+    </p>
+  </div>
+</section>
+
+<div class="p-6 space-y-8 max-w-4xl mx-auto">
+
+  <!-- Platform Links -->
+  <section>
+    <h2 class="text-xl font-header font-bold mb-4
+               text-textPrimary dark:text-textPrimary-dark">
+      Find Me On
+    </h2>
+    <div class="flex flex-wrap gap-3">
+      @for (p of platforms; track p.name) {
+        <a [href]="p.url" target="_blank"
+           class="px-5 py-2.5 rounded font-semibold text-sm text-white transition-colors duration-200"
+           [class]="p.color">
+          {{ p.name }}
+        </a>
+      }
+    </div>
+  </section>
+
+  <!-- Stream Types -->
+  <section>
+    <h2 class="text-xl font-header font-bold mb-4
+               text-textPrimary dark:text-textPrimary-dark">
+      Stream Types
+    </h2>
+    <div class="grid gap-4 sm:grid-cols-2">
+      @for (type of streamTypes; track type.label) {
+        <div class="rounded-lg p-5 border border-transparent hover:border-primary
+                    bg-background-card dark:bg-background-card-dark
+                    transition-all duration-200">
+          <span class="inline-block text-xs font-semibold px-2 py-0.5 rounded mb-3"
+                [class]="type.badge">
+            {{ type.label }}
+          </span>
+          <p class="text-sm text-textSecondary dark:text-textSecondary-dark mb-3">
+            {{ type.description }}
+          </p>
+          <ul class="space-y-1">
+            @for (example of type.examples; track example) {
+              <li class="text-sm font-semibold text-textPrimary dark:text-textPrimary-dark
+                         flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary inline-block shrink-0"></span>
+                {{ example }}
+              </li>
+            }
+          </ul>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Setup / Bio -->
+  <section>
+    <h2 class="text-xl font-header font-bold mb-4
+               text-textPrimary dark:text-textPrimary-dark">
+      About the Streamer
+    </h2>
+    <div class="rounded-lg p-5 border-l-4 border-primary
+                bg-background-card dark:bg-background-card-dark">
+      <p class="text-sm text-textSecondary dark:text-textSecondary-dark leading-relaxed">
+        Developer by day, RPG adventurer by night. GT_Gaming is a multi-platform streamer
+        with a passion for story-rich RPGs, turn-based combat, and classic game experiences.
+        Whether grinding through a 200-hour epic or dropping in for a two-hour chill session,
+        the stream is always about the game and the community.
+      </p>
+    </div>
+  </section>
+
+</div>

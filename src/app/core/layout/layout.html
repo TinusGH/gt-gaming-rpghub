@@ -1,10 +1,11 @@
 <app-navbar></app-navbar>
 
 <main
-  class="p-6 min-h-[calc(100vh-64px)]
+  [@routeAnimations]="getRouteData(outlet)"
+  class="min-h-[calc(100vh-64px)]
          bg-background dark:bg-background-dark
          text-textPrimary dark:text-textPrimary-dark
          transition-colors duration-300"
 >
-  <router-outlet></router-outlet>
+  <router-outlet #outlet="outlet"></router-outlet>
 </main>

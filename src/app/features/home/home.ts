@@ -1,44 +1,48 @@
-import { Component, signal, inject } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
+import { Component, inject, signal, computed } from '@angular/core';
+import { NgFor, NgIf, NgClass } from '@angular/common';
 import { Router } from '@angular/router';
+import { GameService, Game, StreamType } from '../../core/services/game.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NgFor, NgIf],
+  imports: [NgFor, NgIf, NgClass],
   templateUrl: './home.html',
   styleUrls: ['./home.css']
 })
 export class Home {
   private router = inject(Router);
+  private gameService = inject(GameService);
 
-  modalOpen = signal(false);
-  selectedGame = signal('');
+  private allGames: Game[] = this.gameService.getGames();
 
-  games = [
-    { id: 'ff7', title: 'Final Fantasy VII', genre: 'RPG / Adventure', hours: 120 },
-    { id: 'clair', title: 'Clair Obscur Expedition 33', genre: 'RPG / Strategy', hours: 80 },
-    { id: 'divinity', title: 'Divinity: Original Sin', genre: 'RPG / Adventure', hours: 200 },
-    { id: 'chrono', title: 'Chrono Trigger', genre: 'RPG / Classic', hours: 150 }
-  ];
+  filterType = signal<StreamType | 'all'>('all');
+  searchQuery = signal('');
 
-  // Open Subscribe modal
-  openSubscribeModal(game: string) {
-    this.selectedGame.set(game);
-    this.modalOpen.set(true);
+  filteredGames = computed(() => {
+    const type = this.filterType();
+    const query = this.searchQuery().toLowerCase().trim();
+
+    return this.allGames.filter(game => {
+      const matchesType = type === 'all' || game.streamType === type;
+      const matchesSearch = !query || game.title.toLowerCase().includes(query);
+      return matchesType && matchesSearch;
+    });
+  });
+
+  setFilter(type: StreamType | 'all') {
+    this.filterType.set(type);
   }
 
-  closeModal() {
-    this.modalOpen.set(false);
+  onSearch(event: Event) {
+    this.searchQuery.set((event.target as HTMLInputElement).value);
   }
 
-  confirmSubscribe() {
-    alert(`Subscribed to ${this.selectedGame()}!`);
-    this.closeModal();
-  }
-
-  // Navigate to GameDetail page
   goToGame(id: string) {
     this.router.navigate(['/game', id]);
+  }
+
+  onCoverError(event: Event) {
+    (event.target as HTMLImageElement).style.display = 'none';
   }
 }

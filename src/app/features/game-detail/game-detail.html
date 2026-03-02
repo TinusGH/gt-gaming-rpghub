@@ -1,59 +1,146 @@
-<div *ngIf="game() as g" class="grid gap-6 lg:grid-cols-12 p-6 items-stretch">
+<div *ngIf="game() as g" class="p-6 space-y-6">
 
-  <!-- Left Column: Cover Image Card -->
-  <div class="lg:col-span-3">
-    <div class="bg-gray-300 dark:bg-red-500 rounded-lg p-2 flex items-center justify-center h-full">
-      <img [src]="g.cover" alt="{{ g.title }}" class="rounded-lg shadow-md w-full h-full object-contain">
+  <!-- Back Button -->
+  <button (click)="goBack()"
+          class="flex items-center gap-1 text-sm font-semibold
+                 text-textSecondary dark:text-textSecondary-dark
+                 hover:text-primary dark:hover:text-primary
+                 transition-colors duration-200">
+    &#8592; Back to Library
+  </button>
+
+  <!-- Game Header Panel -->
+  <div class="flex flex-col md:flex-row gap-0 rounded-lg overflow-hidden
+              bg-background-card dark:bg-background-card-dark
+              border-l-4 border-primary shadow-lg">
+
+    <!-- Cover Image -->
+    <div class="md:w-52 shrink-0 bg-surface flex items-center justify-center
+                relative min-h-[220px]">
+      <span class="text-text-muted text-sm font-body">No Cover</span>
+      <img [src]="g.cover" [alt]="g.title"
+           class="absolute inset-0 w-full h-full object-cover"
+           (error)="onCoverError($event)">
+    </div>
+
+    <!-- Info + Votes -->
+    <div class="p-6 flex flex-col justify-between flex-1">
+      <div>
+        <!-- Stream Type Badge -->
+        <span class="inline-block text-xs font-semibold px-2 py-0.5 rounded mb-3"
+              [ngClass]="g.streamType === 'lets-play'
+                ? 'bg-primary text-white'
+                : 'bg-surface text-textSecondary-dark'">
+          {{ g.streamType === 'lets-play' ? "Let's Play" : 'Chill Stream' }}
+        </span>
+
+        <h1 class="text-3xl font-header font-black mb-1
+                   text-textPrimary dark:text-textPrimary-dark">
+          {{ g.title }}
+        </h1>
+        <p class="text-textSecondary dark:text-textSecondary-dark mb-1">{{ g.genre }}</p>
+        <p class="text-sm font-semibold text-textPrimary dark:text-textPrimary-dark">
+          {{ g.hours }} hrs played
+        </p>
+      </div>
+
+      <!-- Votes -->
+      <div class="mt-5">
+        <p class="text-xs font-semibold uppercase tracking-wide mb-2
+                  text-textSecondary dark:text-textSecondary-dark">
+          Rate this game
+        </p>
+        <div class="flex gap-3 items-center">
+          <button (click)="upvote()"
+                  class="px-4 py-2 rounded text-sm font-semibold text-white
+                         bg-green-600 hover:bg-green-700 transition-colors duration-200">
+            &#9650; {{ g.votes.up }}
+          </button>
+          <button (click)="downvote()"
+                  class="px-4 py-2 rounded text-sm font-semibold text-white
+                         bg-red-800 hover:bg-red-900 transition-colors duration-200">
+            &#9660; {{ g.votes.down }}
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Right Panels -->
-  <div class="lg:col-span-9 grid gap-6 lg:grid-cols-3">
+  <!-- Stream Sessions Panel -->
+  <div class="rounded-lg shadow-lg p-6
+              bg-background-card dark:bg-background-card-dark">
+    <h3 class="text-xl font-header font-bold mb-4
+               text-textPrimary dark:text-textPrimary-dark">
+      Stream Sessions
+    </h3>
 
-    <!-- Game Info -->
-    <div class="bg-gray-300 dark:bg-red-500 text-black dark:text-white rounded-lg p-4">
-      <h2 class="text-2xl font-bold font-header mb-2">{{ g.title }}</h2>
-      <p class="text-textSecondary dark:text-white mb-1">{{ g.genre }}</p>
-      <p class="font-semibold">{{ g.hours }} Hours Played</p>
-    </div>
+    <div class="space-y-3">
+      <div *ngFor="let s of g.sessions"
+           class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded
+                  bg-surface border border-transparent hover:border-primary
+                  transition-all duration-200">
 
-    <!-- Voting Panel -->
-    <div class="bg-gray-300 dark:bg-red-500 text-black dark:text-white rounded-lg p-4">
-      <h3 class="text-xl font-bold font-header mb-2">Vote Now</h3>
-      <div class="flex items-center space-x-4">
-        <button (click)="upvote()"
-          class="px-4 py-2 bg-green-500 dark:bg-green-600 text-white rounded hover:opacity-80 transition">
-          Upvote ({{ g.votes.up }})
-        </button>
+        <div>
+          <p class="font-semibold text-sm text-textPrimary dark:text-textPrimary-dark">
+            {{ s.title }}
+          </p>
+          <span class="text-xs font-semibold px-2 py-0.5 rounded mt-1 inline-block text-white"
+                [ngClass]="platformClass(s.platform)">
+            {{ s.platform }}
+          </span>
+        </div>
 
-        <button (click)="downvote()"
-          class="px-4 py-2 bg-red-500 dark:bg-red-600 text-white rounded hover:opacity-80 transition">
-          Downvote ({{ g.votes.down }})
-        </button>
+        <div class="flex gap-2 shrink-0">
+          <a [href]="s.vodUrl" target="_blank"
+             class="px-3 py-1.5 rounded text-sm font-semibold text-white
+                    bg-blue-600 hover:bg-blue-700 transition-colors duration-200">
+            Watch VOD
+          </a>
+          <button (click)="openSubscribeModal(s)"
+                  class="px-3 py-1.5 rounded text-sm font-semibold text-white
+                         bg-primary hover:bg-primary-hover transition-colors duration-200">
+            Subscribe
+          </button>
+        </div>
+
       </div>
     </div>
+  </div>
 
-    <!-- Stream Sessions -->
-    <div class="bg-gray-300 dark:bg-red-500 text-black dark:text-white rounded-lg p-4">
-      <h3 class="text-xl font-bold font-header mb-2">Stream Sessions</h3>
-      <ul>
-        <li *ngFor="let s of g.sessions" class="mb-2 flex justify-between items-center">
-          <span>{{ s.title }} ({{ s.platform }})</span>
-          <div class="flex gap-2">
-            <!-- Watch VOD Button -->
-            <a [href]="s.vodUrl" target="_blank"
-              class="px-3 py-1 rounded bg-blue-500 dark:bg-blue-600 text-white hover:opacity-80 transition">
-              Watch VOD
-            </a>
-            <!-- Subscribe Button -->
-            <button (click)="openSubscribeModal(s)"
-              class="px-3 py-1 rounded bg-red-500 dark:bg-red-600 text-white hover:opacity-80 transition">
-              Subscribe
-            </button>
-          </div>
-        </li>
-      </ul>
+</div>
+
+<!-- Not Found -->
+<div *ngIf="!game()" class="p-6 text-center text-textSecondary dark:text-textSecondary-dark">
+  Game not found.
+</div>
+
+<!-- Subscribe Modal -->
+<div *ngIf="modalOpen()"
+     class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
+     (click)="closeModal()">
+  <div class="rounded-lg p-6 w-80 text-center shadow-xl border border-primary
+              bg-background-card dark:bg-background-card-dark"
+       (click)="$event.stopPropagation()">
+
+    <h3 class="text-lg font-header font-bold mb-1
+               text-textPrimary dark:text-textPrimary-dark">
+      Subscribe to session
+    </h3>
+    <p class="text-sm mb-6 text-textSecondary dark:text-textSecondary-dark">
+      {{ selectedSession()?.title }}
+    </p>
+
+    <div class="flex justify-center gap-3">
+      <button (click)="closeModal()"
+              class="px-4 py-2 rounded text-sm font-semibold
+                     bg-surface text-textSecondary-dark hover:opacity-80 transition">
+        Cancel
+      </button>
+      <button (click)="confirmSubscribe()"
+              class="px-4 py-2 rounded text-sm font-semibold text-white
+                     bg-primary hover:bg-primary-hover transition-colors duration-200">
+        Confirm
+      </button>
     </div>
-
   </div>
 </div>

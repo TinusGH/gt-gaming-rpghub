@@ -1,40 +1,152 @@
-<!-- Responsive Grid of Cards -->
-<div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-6">
-  <div *ngFor="let game of games" class="p-4 rounded-lg shadow-lg flex flex-col justify-between
-              bg-gray-300 dark:bg-red-500
-              text-black dark:text-white">
-    <div>
-      <h2 class="text-xl font-header mb-2">{{ game.title }}</h2>
-      <p class="text-textSecondary dark:text-white">{{ game.genre }}</p>
-      <p class="mt-2 font-bold">{{ game.hours }} Hours Played</p>
+<!-- Hero Section -->
+<section class="relative px-6 py-16 text-center overflow-hidden
+                bg-background-nav dark:bg-background-nav-dark
+                border-b-2 border-primary">
+
+  <div class="absolute inset-0 bg-gradient-to-br from-primary to-transparent
+              opacity-5 dark:opacity-10 pointer-events-none"></div>
+
+  <div class="relative z-10">
+    <h1 class="text-5xl font-header font-black tracking-tight mb-3
+               text-textPrimary dark:text-textPrimary-dark">
+      GT_Gaming Hub
+    </h1>
+    <p class="text-lg max-w-xl mx-auto mb-8
+              text-textSecondary dark:text-textSecondary-dark">
+      RPG streamer. Full Let's Plays &amp; Chill Sessions across all platforms.
+    </p>
+
+    <!-- Platform Links -->
+    <div class="flex justify-center flex-wrap gap-3">
+      <a href="https://www.youtube.com/@gt_gaming_youtube" target="_blank"
+         class="px-4 py-2 rounded font-semibold text-sm text-white
+                bg-red-600 hover:bg-red-700 transition-colors duration-200">
+        YouTube
+      </a>
+      <a href="https://www.twitch.tv/gt_gaming_twitch" target="_blank"
+         class="px-4 py-2 rounded font-semibold text-sm text-white
+                bg-purple-600 hover:bg-purple-700 transition-colors duration-200">
+        Twitch
+      </a>
+      <a href="https://kick.com/gt-gaming-kick" target="_blank"
+         class="px-4 py-2 rounded font-semibold text-sm text-white
+                bg-green-600 hover:bg-green-700 transition-colors duration-200">
+        Kick
+      </a>
+      <a href="https://rumble.com/user/GT_Gaming_Rumble" target="_blank"
+         class="px-4 py-2 rounded font-semibold text-sm text-white
+                bg-orange-500 hover:bg-orange-600 transition-colors duration-200">
+        Rumble
+      </a>
     </div>
-
-    <!-- Navigate to GameDetail page -->
-    <button (click)="goToGame(game.id)" class="mt-4 px-4 py-2 rounded
-         bg-gray-800 text-white
-         hover:opacity-80 transition-colors duration-200">
-      View Details
-    </button>
   </div>
-</div>
+</section>
 
-<!-- Subscribe Modal -->
-<div *ngIf="modalOpen()" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+<!-- Game Library -->
+<section class="p-6">
 
-  <div class="bg-white dark:bg-background p-6 rounded-lg w-80 text-center shadow-lg">
-    <h3 class="text-lg font-header mb-4 text-black dark:text-white">
-      Subscribe to {{ selectedGame() }}?
-    </h3>
+  <!-- Toolbar: Title + Search + Filters -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
 
-    <div class="flex justify-around">
-      <button (click)="closeModal()"
-        class="px-4 py-2 rounded bg-gray-300 dark:bg-gray-700 dark:text-white hover:opacity-80 transition">
-        Cancel
-      </button>
+    <h2 class="text-2xl font-header font-bold text-textPrimary dark:text-textPrimary-dark">
+      Game Library
+    </h2>
 
-      <button (click)="confirmSubscribe()" class="px-4 py-2 rounded bg-red-500 text-white hover:opacity-80 transition">
-        Confirm
-      </button>
+    <div class="flex flex-col sm:flex-row gap-3 sm:items-center">
+
+      <!-- Search -->
+      <input type="text"
+             placeholder="Search games..."
+             (input)="onSearch($event)"
+             class="px-3 py-1.5 rounded text-sm border outline-none
+                    bg-background-card dark:bg-surface
+                    border-transparent focus:border-primary
+                    text-textPrimary dark:text-textPrimary-dark
+                    placeholder:text-text-muted
+                    transition-colors duration-200">
+
+      <!-- Filter Buttons -->
+      <div class="flex gap-2">
+        <button (click)="setFilter('all')"
+                [ngClass]="filterType() === 'all'
+                  ? 'bg-primary text-white'
+                  : 'bg-surface text-textSecondary-dark hover:border-primary border border-transparent'"
+                class="px-3 py-1.5 rounded text-xs font-semibold transition-colors duration-200">
+          All
+        </button>
+        <button (click)="setFilter('lets-play')"
+                [ngClass]="filterType() === 'lets-play'
+                  ? 'bg-primary text-white'
+                  : 'bg-surface text-textSecondary-dark hover:border-primary border border-transparent'"
+                class="px-3 py-1.5 rounded text-xs font-semibold transition-colors duration-200">
+          Let's Play
+        </button>
+        <button (click)="setFilter('chill')"
+                [ngClass]="filterType() === 'chill'
+                  ? 'bg-primary text-white'
+                  : 'bg-surface text-textSecondary-dark hover:border-primary border border-transparent'"
+                class="px-3 py-1.5 rounded text-xs font-semibold transition-colors duration-200">
+          Chill
+        </button>
+      </div>
+
     </div>
   </div>
-</div>
+
+  <!-- Empty State -->
+  <div *ngIf="filteredGames().length === 0"
+       class="text-center py-16 text-textSecondary dark:text-textSecondary-dark">
+    No games match your search.
+  </div>
+
+  <!-- Game Cards -->
+  <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <div *ngFor="let game of filteredGames()"
+         class="rounded-lg shadow-lg flex flex-col overflow-hidden
+                bg-background-card dark:bg-background-card-dark
+                border border-transparent hover:border-primary
+                transition-all duration-200">
+
+      <!-- Cover Image -->
+      <div class="h-44 bg-surface flex items-center justify-center overflow-hidden relative">
+        <span class="text-text-muted text-sm font-body">No Cover</span>
+        <img [src]="game.cover" [alt]="game.title"
+             class="absolute inset-0 w-full h-full object-cover"
+             (error)="onCoverError($event)">
+      </div>
+
+      <!-- Card Body -->
+      <div class="p-4 flex flex-col flex-1 justify-between">
+        <div>
+          <!-- Stream Type Badge -->
+          <span class="inline-block text-xs font-semibold px-2 py-0.5 rounded mb-2"
+                [ngClass]="game.streamType === 'lets-play'
+                  ? 'bg-primary text-white'
+                  : 'bg-surface text-textSecondary-dark'">
+            {{ game.streamType === 'lets-play' ? "Let's Play" : 'Chill Stream' }}
+          </span>
+
+          <h2 class="text-lg font-header font-bold mb-1
+                     text-textPrimary dark:text-textPrimary-dark">
+            {{ game.title }}
+          </h2>
+          <p class="text-sm text-textSecondary dark:text-textSecondary-dark">
+            {{ game.genre }}
+          </p>
+          <p class="text-sm font-semibold mt-1 text-textPrimary dark:text-textPrimary-dark">
+            {{ game.hours }} hrs played
+          </p>
+        </div>
+
+        <button (click)="goToGame(game.id)"
+                class="mt-4 px-4 py-2 rounded text-sm font-semibold text-white
+                       bg-primary hover:bg-primary-hover
+                       transition-colors duration-200">
+          View Details
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</section>
