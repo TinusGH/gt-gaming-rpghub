@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'TarrgetAcad';
+  src: url('/fonts/tarrgetacadital.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+app-home,
+app-game-detail,
+app-about,
+app-not-found {
+  display: block;
+  animation: pageEnter 220ms ease-out;
+}

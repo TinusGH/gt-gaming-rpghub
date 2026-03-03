@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Navbar } from '../navbar/navbar';
 import { RouterOutlet } from '@angular/router';
-import { routeAnimations } from '../animations/route.animations';
 
 @Component({
   selector: 'app-layout',
@@ -9,10 +8,5 @@ import { routeAnimations } from '../animations/route.animations';
   imports: [Navbar, RouterOutlet],
   templateUrl: './layout.html',
   styleUrls: ['./layout.css'],
-  animations: [routeAnimations]
 })
-export class Layout {
-  getRouteData(outlet: RouterOutlet) {
-    return outlet.activatedRouteData?.['animation'];
-  }
-}
+export class Layout {}

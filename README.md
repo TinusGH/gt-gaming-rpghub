@@ -1,59 +1,125 @@
-# GtGamingRpghub
+# GT_Gaming Hub
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.0.
+A personal streaming hub and RPG game showcase for GT_Gaming — a multi-platform streamer specialising in story-driven RPGs and chill gaming sessions.
 
-## Development server
+The site serves as a central destination for fans to explore the game library, browse past stream sessions, vote on games, and find GT_Gaming across all platforms.
 
-To start a local development server, run:
+---
+
+## About the Project
+
+GT_Gaming Hub is a passion project built to:
+
+- Showcase an active RPG game library split across two stream categories: **Let's Play** (full story playthroughs, 6+ hours) and **Chill Streams** (~2 hours, casual gameplay)
+- Link visitors to GT_Gaming's channels on **YouTube**, **Twitch**, **Kick**, and **Rumble**
+- Allow fans to browse game detail pages with stream session history, VOD links, and community voting
+- Serve as a personal brand hub with a consistent black and red visual identity
+
+---
+
+## Tech Stack
+
+| Technology | Version | Purpose |
+|---|---|---|
+| [Angular](https://angular.dev) | 21.2.0 | Frontend framework (standalone components, signals, lazy loading) |
+| [Tailwind CSS](https://tailwindcss.com) | 3.3.3 | Utility-first styling with custom design tokens |
+| [TypeScript](https://www.typescriptlang.org) | 5.9.2 | Type-safe development |
+| [Angular Router](https://angular.dev/guide/routing) | 21.2.0 | Client-side routing with lazy-loaded routes |
+| [@angular/animations](https://angular.dev/guide/animations) | 21.2.0 | Page transition animations |
+| [Vitest](https://vitest.dev) | 4.x | Unit testing |
+
+---
+
+## Features
+
+- **Game Library** — Responsive card grid with cover art, genre, hours played, and stream type badges
+- **Filter & Search** — Filter games by stream type (All / Let's Play / Chill) and search by title in real time
+- **Game Detail Pages** — Per-game view with voting, stream session list, platform badges, and subscribe modal
+- **About Page** — Streamer profile with avatar, bio, platform links, and stream type breakdown
+- **Dark / Light Theme Toggle** — Dark mode by default, switchable via navbar
+- **Custom Branding** — Tarrget Academy Italic font, black and red colour palette
+- **Lazy Loading** — Feature routes loaded on demand for faster initial page load
+- **404 Page** — Styled not-found page for unknown routes
+- **CSS Page Transitions** — Smooth fade and slide-up animation on every route change
+- **Responsive Design** — Mobile-first layout across all pages
+
+---
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── core/
+│   │   ├── animations/       # Route transition animation definitions
+│   │   ├── layout/           # App shell (navbar + router outlet)
+│   │   ├── navbar/           # Navigation with RouterLink active state
+│   │   └── services/
+│   │       └── game.service.ts   # Single source of truth for all game data
+│   └── features/
+│       ├── about/            # Streamer profile page
+│       ├── game-detail/      # Per-game detail, sessions, voting
+│       ├── home/             # Game library with filter and search
+│       └── not-found/        # 404 page
+├── styles.css                # Global styles, @font-face, page animations
+└── index.html                # App entry point (dark mode class default)
+
+public/
+├── fonts/                    # Tarrget font family (.ttf files)
+└── images/
+    ├── avatars/              # Streamer avatar
+    └── covers/               # Game cover art
+```
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org) v18 or later
+- [Angular CLI](https://angular.dev/tools/cli) v21
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Run development server
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Navigate to `http://localhost:4200/`. The app reloads automatically on file changes.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+### Build for production
 
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Build artifacts are output to the `dist/` directory.
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+### Run unit tests
 
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
+---
 
-For end-to-end (e2e) testing, run:
+## Screenshots
 
-```bash
-ng e2e
-```
+### Home — Game Library
+![Home Page](public/images/screenshots/home.png)
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+### Game Detail
+![Game Detail Page](public/images/screenshots/game-detail.png)
 
-## Additional Resources
+### About Page
+![About Page](public/images/screenshots/about.png)
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### 404 Page
+![404 Not Found](public/images/screenshots/not-found.png)

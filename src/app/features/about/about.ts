@@ -22,7 +22,7 @@ export class About {
     },
     {
       label: 'Chill Stream',
-      badge: 'bg-surface text-textSecondary-dark',
+      badge: 'bg-blue-600 text-white',
       description: 'Relaxed two-hour sessions for lighter games. Lower stakes, more chat interaction, good vibes.',
       examples: ['Palworld', 'Marvel Cosmic Invasion'],
     },

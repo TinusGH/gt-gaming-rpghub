@@ -33,6 +33,7 @@ module.exports = {
       fontFamily: {
         header: ['Montserrat', 'sans-serif'],
         body: ['Inter', 'sans-serif'],
+        tarrget: ['TarrgetAcad', 'sans-serif'],
       },
     },
   },

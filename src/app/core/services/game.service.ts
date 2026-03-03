@@ -26,21 +26,21 @@ export class GameService {
   private games: Game[] = [
     {
       id: 'ff7',
-      title: 'Final Fantasy VII',
-      cover: 'assets/covers/ff7.jpg',
+      title: 'Final Fantasy VII Remake Intergrade',
+      cover: '/images/covers/Final-Fantasy-Remake-Intergrade.jpg',
       genre: 'RPG / Adventure',
       hours: 120,
       streamType: 'lets-play',
       votes: { up: 42, down: 5 },
       sessions: [
-        { id: 's1', title: "Let's Play FF7 #1", platform: 'Twitch', vodUrl: '#' },
-        { id: 's2', title: "Let's Play FF7 #2", platform: 'YouTube', vodUrl: '#' },
+        { id: 's1', title: "Let's Play FF7 Remake #1", platform: 'Twitch', vodUrl: '#' },
+        { id: 's2', title: "Let's Play FF7 Remake #2", platform: 'YouTube', vodUrl: '#' },
       ],
     },
     {
       id: 'clair',
       title: 'Clair Obscur: Expedition 33',
-      cover: 'assets/covers/clair.jpg',
+      cover: '/images/covers/clair-obscur-expedition-33.jpg',
       genre: 'RPG / Strategy',
       hours: 80,
       streamType: 'lets-play',
@@ -53,7 +53,7 @@ export class GameService {
     {
       id: 'divinity',
       title: 'Divinity: Original Sin',
-      cover: 'assets/covers/divinity.jpg',
+      cover: '/images/covers/divinity-original-sin.jpg',
       genre: 'RPG / Adventure',
       hours: 200,
       streamType: 'lets-play',
@@ -66,7 +66,7 @@ export class GameService {
     {
       id: 'chrono',
       title: 'Chrono Trigger',
-      cover: 'assets/covers/chrono.jpg',
+      cover: '/images/covers/Chrono-Trigger.jpg',
       genre: 'RPG / Classic',
       hours: 150,
       streamType: 'lets-play',
@@ -75,6 +75,26 @@ export class GameService {
         { id: 's7', title: "Let's Play Chrono Trigger #1", platform: 'YouTube', vodUrl: '#' },
         { id: 's8', title: "Let's Play Chrono Trigger #2", platform: 'Kick', vodUrl: '#' },
       ],
+    },
+    {
+      id: 'palworld',
+      title: 'Palworld',
+      cover: '/images/covers/palworld.jpg',
+      genre: 'Survival / Adventure',
+      hours: 0,
+      streamType: 'chill',
+      votes: { up: 0, down: 0 },
+      sessions: [],
+    },
+    {
+      id: 'marvel-cosmic',
+      title: 'Marvel Cosmic Invasion',
+      cover: '/images/covers/marvel-cosmic-invasion.png',
+      genre: 'Action / Beat \'em up',
+      hours: 0,
+      streamType: 'chill',
+      votes: { up: 0, down: 0 },
+      sessions: [],
     },
   ];
 
