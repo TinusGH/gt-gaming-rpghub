@@ -112,14 +112,39 @@ ng test
 
 ## Screenshots
 
+Screenshots captured at three breakpoints — **mobile** (390px · iPhone 14),
+**tablet** (768px · iPad), and **desktop** (1280px).
+
+> To regenerate screenshots run `ng serve` then `npx ts-node scripts/screenshots.ts`.
+
+---
+
 ### Home — Game Library
-![Home Page](public/images/screenshots/home.png)
+
+| Mobile | Tablet | Desktop |
+|--------|--------|---------|
+| ![Home mobile](public/images/screenshots/home-mobile.png) | ![Home tablet](public/images/screenshots/home-tablet.png) | ![Home desktop](public/images/screenshots/home-desktop.png) |
+
+---
 
 ### Game Detail
-![Game Detail Page](public/images/screenshots/game-detail.png)
+
+| Mobile | Tablet | Desktop |
+|--------|--------|---------|
+| ![Game Detail mobile](public/images/screenshots/game-detail-mobile.png) | ![Game Detail tablet](public/images/screenshots/game-detail-tablet.png) | ![Game Detail desktop](public/images/screenshots/game-detail-desktop.png) |
+
+---
 
 ### About Page
-![About Page](public/images/screenshots/about.png)
+
+| Mobile | Tablet | Desktop |
+|--------|--------|---------|
+| ![About mobile](public/images/screenshots/about-mobile.png) | ![About tablet](public/images/screenshots/about-tablet.png) | ![About desktop](public/images/screenshots/about-desktop.png) |
+
+---
 
 ### 404 Page
-![404 Not Found](public/images/screenshots/not-found.png)
+
+| Mobile | Tablet | Desktop |
+|--------|--------|---------|
+| ![404 mobile](public/images/screenshots/not-found-mobile.png) | ![404 tablet](public/images/screenshots/not-found-tablet.png) | ![404 desktop](public/images/screenshots/not-found-desktop.png) |
