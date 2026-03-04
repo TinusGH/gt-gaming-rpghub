@@ -145,12 +145,14 @@ each implementation decision.
 | CL-1.2 | ✅ | `home.html` — CSS Grid with sm/md/lg breakpoints for card layout |
 | CL-1.2 | ✅ | `game-detail.html` — flex-col md:flex-row for responsive header panel |
 | CL-1.2 | ✅ | `about.html` — sm:grid-cols-2 for stream type cards |
+| CL-1.2 | ✅ | `navbar.html` — hamburger menu on mobile (hidden sm:flex for desktop links) |
 | CL-1.5 | ✅ | All buttons — px-4 py-2 minimum sizing meets 44px touch target |
 | CL-3.4 | ✅ | `postcss.config.js` — Autoprefixer configured |
 | CL-4.1 | ✅ | All interactive elements use button and a — natively keyboard focusable |
 | CL-4.2 | ✅ | `styles.css` — global :focus-visible ring using brand red |
 | CL-4.3 | ✅ | `navbar.html` — nav landmark; `layout.html` — main; pages use section |
 | CL-4.4 | ✅ | `game-detail.html` — modal uses role="dialog", aria-modal, aria-labelledby |
+| CL-4.4 | ✅ | `navbar.html` — hamburger button uses aria-expanded + aria-label |
 | CL-5.3 | ✅ | All images — descriptive alt attributes present |
 | CL-5.4 | ✅ | `home.ts` / `game-detail.ts` — onCoverError() hides broken cover images |
 | CL-6.1 | ✅ | `home.html` — empty state shown when search returns no results |
