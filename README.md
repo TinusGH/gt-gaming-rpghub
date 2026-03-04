@@ -115,7 +115,7 @@ ng test
 Screenshots captured at three breakpoints — **mobile** (390px · iPhone 14),
 **tablet** (768px · iPad), and **desktop** (1280px).
 
-> To regenerate screenshots run `ng serve` then `npx ts-node scripts/screenshots.ts`.
+> To regenerate screenshots run `ng serve` then `node scripts/screenshots.mjs`.
 
 ---
 
