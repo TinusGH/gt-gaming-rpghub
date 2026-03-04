@@ -25,8 +25,8 @@ GT_Gaming Hub is a passion project built to:
 | [Tailwind CSS](https://tailwindcss.com) | 3.3.3 | Utility-first styling with custom design tokens |
 | [TypeScript](https://www.typescriptlang.org) | 5.9.2 | Type-safe development |
 | [Angular Router](https://angular.dev/guide/routing) | 21.2.0 | Client-side routing with lazy-loaded routes |
-| [@angular/animations](https://angular.dev/guide/animations) | 21.2.0 | Page transition animations |
-| [Vitest](https://vitest.dev) | 4.x | Unit testing |
+| [@angular/animations](https://angular.dev/guide/animations) | 21.2.0 | Required by Angular platform (`provideAnimationsAsync`) |
+| [Playwright](https://playwright.dev) | 1.x | End-to-end testing across Chromium, Firefox, and WebKit |
 
 ---
 
@@ -41,7 +41,8 @@ GT_Gaming Hub is a passion project built to:
 - **Lazy Loading** — Feature routes loaded on demand for faster initial page load
 - **404 Page** — Styled not-found page for unknown routes
 - **CSS Page Transitions** — Smooth fade and slide-up animation on every route change
-- **Responsive Design** — Mobile-first layout across all pages
+- **Responsive Design** — Mobile-first layout across all pages, hamburger menu on mobile
+- **Per-Route Page Titles** — Unique browser tab title on every route, dynamic on game detail
 
 ---
 
@@ -51,9 +52,9 @@ GT_Gaming Hub is a passion project built to:
 src/
 ├── app/
 │   ├── core/
-│   │   ├── animations/       # Route transition animation definitions
+│   │   ├── animations/       # Route transition animation definitions (reference)
 │   │   ├── layout/           # App shell (navbar + router outlet)
-│   │   ├── navbar/           # Navigation with RouterLink active state
+│   │   ├── navbar/           # Responsive navigation with hamburger menu
 │   │   └── services/
 │   │       └── game.service.ts   # Single source of truth for all game data
 │   └── features/
@@ -68,7 +69,14 @@ public/
 ├── fonts/                    # Tarrget font family (.ttf files)
 └── images/
     ├── avatars/              # Streamer avatar
-    └── covers/               # Game cover art
+    ├── covers/               # Game cover art
+    └── screenshots/          # Breakpoint screenshots (mobile / tablet / desktop)
+
+e2e/
+└── example.spec.ts           # Playwright end-to-end tests
+
+scripts/
+└── screenshots.mjs           # Auto-generates breakpoint screenshots via Playwright
 ```
 
 ---
@@ -102,10 +110,16 @@ ng build
 
 Build artifacts are output to the `dist/` directory.
 
-### Run unit tests
+### Run e2e tests
 
 ```bash
-ng test
+npx playwright test
+```
+
+Playwright starts `ng serve` automatically if it isn't already running. To view the HTML report after a run:
+
+```bash
+npx playwright show-report
 ```
 
 ---
