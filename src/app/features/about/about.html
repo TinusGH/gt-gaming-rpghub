@@ -33,8 +33,9 @@
       Find Me On
     </h2>
     <div class="flex flex-wrap gap-3">
+      <!-- [CL-10.1] Security: rel="noopener noreferrer" on all external target="_blank" links -->
       @for (p of platforms; track p.name) {
-        <a [href]="p.url" target="_blank"
+        <a [href]="p.url" target="_blank" rel="noopener noreferrer"
            class="px-5 py-2.5 rounded font-semibold text-sm text-white transition-colors duration-200"
            [class]="p.color">
           {{ p.name }}

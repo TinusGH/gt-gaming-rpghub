@@ -7,9 +7,11 @@
   src: url('/fonts/tarrgetacadital.ttf') format('truetype');
   font-weight: normal;
   font-style: italic;
+  /* [CL-7.1] Performance: font-display swap prevents invisible text during font load */
   font-display: swap;
 }
 
+/* [CL-7.2] Performance: opacity + transform are GPU-accelerated — no layout recalculation */
 @keyframes pageEnter {
   from {
     opacity: 0;
@@ -21,6 +23,17 @@
   }
 }
 
+/* [CL-4.2] Accessibility: :focus-visible shows a focus ring only for keyboard users,
+   not on mouse click — keeps UI clean while remaining fully keyboard accessible.
+   Uses brand red to stay on-theme rather than the default browser blue. */
+:focus-visible {
+  outline: 2px solid #DC143C;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* [CL-1.2] Layout: Angular renders components as inline by default.
+   display:block ensures each page component occupies full width as a block element. */
 app-home,
 app-game-detail,
 app-about,

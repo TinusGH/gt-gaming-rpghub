@@ -45,4 +45,11 @@ export class Home {
   onCoverError(event: Event) {
     (event.target as HTMLImageElement).style.display = 'none';
   }
+
+  // [CL-7.4] Performance: trackBy gives Angular a stable identity per list item.
+  // Without this, Angular tears down and recreates every card DOM node on each filter/search
+  // update — even for items that haven't changed.
+  trackById(_index: number, game: Game): string {
+    return game.id;
+  }
 }

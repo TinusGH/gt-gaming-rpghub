@@ -1,6 +1,7 @@
+<!-- [CL-6.2] Dynamic Content: *ngIf guards against rendering with null game data -->
 <div *ngIf="game() as g" class="p-6 space-y-6">
 
-  <!-- Back Button -->
+  <!-- [CL-4.1] Accessibility: <button> is natively keyboard focusable — no tabindex needed -->
   <button (click)="goBack()"
           class="flex items-center gap-1 text-sm font-semibold
                  text-textSecondary dark:text-textSecondary-dark
@@ -9,15 +10,18 @@
     &#8592; Back to Library
   </button>
 
-  <!-- Game Header Panel -->
+  <!-- [CL-1.2] Layout: flex-col on mobile stacks cover above info;
+       md:flex-row places them side by side on tablet and above -->
   <div class="flex flex-col md:flex-row gap-0 rounded-lg overflow-hidden
               bg-background-card dark:bg-background-card-dark
               border-l-4 border-primary shadow-lg">
 
     <!-- Cover Image -->
+    <!-- [CL-5.4] Images: fallback "No Cover" text visible if image fails -->
     <div class="md:w-52 shrink-0 bg-surface flex items-center justify-center
                 relative min-h-[220px]">
       <span class="text-text-muted text-sm font-body">No Cover</span>
+      <!-- [CL-5.3] Images: [alt] bound to game title — descriptive for screen readers -->
       <img [src]="g.cover" [alt]="g.title"
            class="absolute inset-0 w-full h-full object-cover"
            (error)="onCoverError($event)">
@@ -26,7 +30,6 @@
     <!-- Info + Votes -->
     <div class="p-6 flex flex-col justify-between flex-1">
       <div>
-        <!-- Stream Type Badge -->
         <span class="inline-block text-xs font-semibold px-2 py-0.5 rounded mb-3"
               [ngClass]="g.streamType === 'lets-play'
                 ? 'bg-primary text-white'
@@ -34,6 +37,7 @@
           {{ g.streamType === 'lets-play' ? "Let's Play" : 'Chill Stream' }}
         </span>
 
+        <!-- [CL-11.2] SEO: h1 is the primary heading on this page — game title -->
         <h1 class="text-3xl font-header font-black mb-1
                    text-textPrimary dark:text-textPrimary-dark">
           {{ g.title }}
@@ -50,13 +54,16 @@
                   text-textSecondary dark:text-textSecondary-dark">
           Rate this game
         </p>
+        <!-- [CL-1.5] Layout: py-2 px-4 ensures buttons meet the 44px minimum touch target -->
         <div class="flex gap-3 items-center">
           <button (click)="upvote()"
+                  aria-label="Upvote this game"
                   class="px-4 py-2 rounded text-sm font-semibold text-white
                          bg-green-600 hover:bg-green-700 transition-colors duration-200">
             &#9650; {{ g.votes.up }}
           </button>
           <button (click)="downvote()"
+                  aria-label="Downvote this game"
                   class="px-4 py-2 rounded text-sm font-semibold text-white
                          bg-red-800 hover:bg-red-900 transition-colors duration-200">
             &#9660; {{ g.votes.down }}
@@ -67,15 +74,18 @@
   </div>
 
   <!-- Stream Sessions Panel -->
+  <!-- [CL-4.3] Accessibility: headings inside sections maintain h1 > h2 > h3 hierarchy -->
   <div class="rounded-lg shadow-lg p-6
               bg-background-card dark:bg-background-card-dark">
-    <h3 class="text-xl font-header font-bold mb-4
+    <h2 class="text-xl font-header font-bold mb-4
                text-textPrimary dark:text-textPrimary-dark">
       Stream Sessions
-    </h3>
+    </h2>
 
     <div class="space-y-3">
-      <div *ngFor="let s of g.sessions"
+      <!-- [CL-7.4] Performance: trackBy gives Angular a stable DOM identity per session row,
+           preventing full list re-renders when vote state updates trigger change detection -->
+      <div *ngFor="let s of g.sessions; trackBy: trackBySessionId"
            class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded
                   bg-surface border border-transparent hover:border-primary
                   transition-all duration-200">
@@ -91,7 +101,9 @@
         </div>
 
         <div class="flex gap-2 shrink-0">
-          <a [href]="s.vodUrl" target="_blank"
+          <!-- [CL-10.1] Security: rel="noopener noreferrer" on target="_blank" links
+               prevents the opened tab accessing window.opener (tab-napping attack) -->
+          <a [href]="s.vodUrl" target="_blank" rel="noopener noreferrer"
              class="px-3 py-1.5 rounded text-sm font-semibold text-white
                     bg-blue-600 hover:bg-blue-700 transition-colors duration-200">
             Watch VOD
@@ -109,20 +121,27 @@
 
 </div>
 
-<!-- Not Found -->
+<!-- [CL-6.2] Dynamic Content: graceful fallback for invalid game IDs -->
 <div *ngIf="!game()" class="p-6 text-center text-textSecondary dark:text-textSecondary-dark">
   Game not found.
 </div>
 
 <!-- Subscribe Modal -->
+<!-- [CL-4.4] Accessibility: role="dialog" + aria-modal tells screen readers this is a modal
+     dialog that traps focus. aria-labelledby links the dialog to its visible title.
+     Backdrop click (closeModal) and Escape key support expected for full a11y compliance. -->
 <div *ngIf="modalOpen()"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="subscribe-modal-title"
      class="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
      (click)="closeModal()">
   <div class="rounded-lg p-6 w-80 text-center shadow-xl border border-primary
               bg-background-card dark:bg-background-card-dark"
        (click)="$event.stopPropagation()">
 
-    <h3 class="text-lg font-header font-bold mb-1
+    <h3 id="subscribe-modal-title"
+        class="text-lg font-header font-bold mb-1
                text-textPrimary dark:text-textPrimary-dark">
       Subscribe to session
     </h3>
