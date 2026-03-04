@@ -1,27 +1,80 @@
 <!-- [CL-4.3] Accessibility: <nav> is a semantic landmark — screen readers expose it
      as a navigation region, allowing users to jump directly to it -->
-<nav class="flex items-center justify-between px-6 py-4
-            bg-background-nav dark:bg-background-nav-dark
+<nav class="bg-background-nav dark:bg-background-nav-dark
             text-textPrimary dark:text-textPrimary-dark
             transition-colors duration-300 shadow-md border-b border-primary">
 
-  <!-- Brand -->
-  <a routerLink="/"
-     class="text-3xl font-tarrget italic text-primary
-            hover:opacity-80 transition-opacity duration-200">
-    GT_Gaming Hub
-  </a>
+  <!-- Top bar: brand + desktop links + hamburger -->
+  <!-- [CL-1.2] Responsiveness: justify-between keeps brand and controls at opposite ends -->
+  <div class="flex items-center justify-between px-6 py-4">
 
-  <!-- Nav Links -->
-  <div class="flex items-center gap-6">
+    <!-- Brand -->
+    <a routerLink="/" (click)="closeMenu()"
+       class="text-3xl font-tarrget italic text-primary
+              hover:opacity-80 transition-opacity duration-200">
+      GT_Gaming Hub
+    </a>
+
+    <!-- Desktop nav links — hidden below sm breakpoint -->
+    <!-- [CL-1.2] Responsiveness: hidden on mobile, flex row on sm+ -->
+    <div class="hidden sm:flex items-center gap-6">
+
+      <a routerLink="/" routerLinkActive="text-primary font-bold" [routerLinkActiveOptions]="homeMatchOptions"
+         class="text-sm font-semibold transition-colors duration-200
+                text-textPrimary dark:text-textPrimary-dark hover:text-primary dark:hover:text-primary">
+        Home
+      </a>
+
+      <a routerLink="/about" routerLinkActive="text-primary font-bold"
+         class="text-sm font-semibold transition-colors duration-200
+                text-textPrimary dark:text-textPrimary-dark hover:text-primary dark:hover:text-primary">
+        About
+      </a>
+
+      <!-- Theme Toggle -->
+      <button (click)="toggleTheme()"
+              class="px-3 py-1.5 rounded text-xs font-semibold transition-colors duration-300
+                     bg-surface text-textSecondary-dark hover:border-primary
+                     border border-transparent hover:text-primary">
+        {{ darkMode ? 'Light Mode' : 'Dark Mode' }}
+      </button>
+
+    </div>
+
+    <!-- Hamburger button — visible below sm breakpoint only -->
+    <!-- [CL-4.1] Accessibility: <button> is natively keyboard focusable -->
+    <!-- [CL-4.4] Accessibility: aria-expanded communicates open/closed state to screen readers -->
+    <!-- [CL-1.2] Responsiveness: sm:hidden hides it on desktop -->
+    <button (click)="toggleMenu()"
+            [attr.aria-expanded]="menuOpen()"
+            aria-label="Toggle navigation menu"
+            class="sm:hidden flex flex-col justify-center items-center w-8 h-8 gap-1.5
+                   text-textPrimary dark:text-textPrimary-dark">
+      <!-- Animated hamburger bars — morph into X when menu is open -->
+      <span [ngClass]="menuOpen() ? 'rotate-45 translate-y-2' : ''"
+            class="block w-5 h-0.5 bg-current transition-all duration-200"></span>
+      <span [ngClass]="menuOpen() ? 'opacity-0' : ''"
+            class="block w-5 h-0.5 bg-current transition-all duration-200"></span>
+      <span [ngClass]="menuOpen() ? '-rotate-45 -translate-y-2' : ''"
+            class="block w-5 h-0.5 bg-current transition-all duration-200"></span>
+    </button>
+
+  </div>
+
+  <!-- Mobile dropdown menu — shown when menuOpen, hidden on sm+ -->
+  <!-- [CL-1.2] Responsiveness: sm:hidden ensures this never appears on desktop -->
+  <div *ngIf="menuOpen()"
+       class="sm:hidden flex flex-col gap-4 px-6 pb-5 border-t border-primary/30">
 
     <a routerLink="/" routerLinkActive="text-primary font-bold" [routerLinkActiveOptions]="homeMatchOptions"
-       class="text-sm font-semibold transition-colors duration-200
+       (click)="closeMenu()"
+       class="text-sm font-semibold transition-colors duration-200 pt-4
               text-textPrimary dark:text-textPrimary-dark hover:text-primary dark:hover:text-primary">
       Home
     </a>
 
     <a routerLink="/about" routerLinkActive="text-primary font-bold"
+       (click)="closeMenu()"
        class="text-sm font-semibold transition-colors duration-200
               text-textPrimary dark:text-textPrimary-dark hover:text-primary dark:hover:text-primary">
       About
@@ -29,11 +82,12 @@
 
     <!-- Theme Toggle -->
     <button (click)="toggleTheme()"
-            class="px-3 py-1.5 rounded text-xs font-semibold transition-colors duration-300
+            class="self-start px-3 py-1.5 rounded text-xs font-semibold transition-colors duration-300
                    bg-surface text-textSecondary-dark hover:border-primary
                    border border-transparent hover:text-primary">
       {{ darkMode ? 'Light Mode' : 'Dark Mode' }}
     </button>
 
   </div>
+
 </nav>

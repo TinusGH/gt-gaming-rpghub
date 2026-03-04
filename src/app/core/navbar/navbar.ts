@@ -1,15 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import { NgIf, NgClass } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [NgIf, NgClass, RouterLink, RouterLinkActive],
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.css'],
 })
 export class Navbar {
   darkMode = true;
+  // [CL-1.2] Responsiveness: signal drives the mobile menu open/close state
+  menuOpen = signal(false);
   readonly homeMatchOptions = { exact: true };
 
   toggleTheme() {
@@ -19,5 +22,13 @@ export class Navbar {
     } else {
       document.documentElement.classList.remove('dark');
     }
+  }
+
+  toggleMenu() {
+    this.menuOpen.update(v => !v);
+  }
+
+  closeMenu() {
+    this.menuOpen.set(false);
   }
 }
